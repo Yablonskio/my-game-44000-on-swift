@@ -96,19 +96,24 @@ class GeneralLogic: ObservableObject {
     }
     if checkEat() == true {
       if self.recordGame == false {
-        switch secMainTimer {
-        case 0:
-          points += 5
-        case 1:
-          points += 3
-        case 2:
+        if playWithOutSec == false {
+          switch secMainTimer {
+          case 0:
+            points += 5
+          case 1:
+            points += 3
+          case 2:
+            points += 1
+          default:
+            print("ERROR")
+          }
+        } else {
           points += 1
-        default:
-          print("ERROR")
         }
       } else {
         pointsRec+=1
       }
+        
       UINotificationFeedbackGenerator().notificationOccurred(.warning)
       UserDefaults.standard.set(points, forKey: "points")
       orbNewPos()

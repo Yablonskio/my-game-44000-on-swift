@@ -48,7 +48,7 @@ struct ContentView: View {
   
 
   
-  
+  @StateObject var OL = OtherLogic()
   
   var body: some View {
     VStack(spacing: 0) {
@@ -68,9 +68,15 @@ struct ContentView: View {
             } label: {
               Text((!GL.playWithOutSec) ? String(GL.secOrb) : " ")
             }.foregroundColor(.white).font(.system(size: screenWidth * 0.1, weight: .bold)).clipped()
-          }.frame(width: screenWidth * 0.126, height: screenWidth * 0.126).offset(x: screenWidth / 1000 * GL.posOX, y: screenWidth / 1000 * GL.posOY).animation(.interpolatingSpring(mass: 0.2, stiffness: 100, damping: 10, initialVelocity: 10))
+          }.frame(width: screenWidth * 0.126, height: screenWidth * 0.126)
+            .offset(x: screenWidth / 1000 * GL.posOX, y: screenWidth / 1000 * GL.posOY)
+            .animation(.interpolatingSpring(mass: 0.2, stiffness: 100, damping: 10, initialVelocity: 10), value: GL.posOX)
+            .animation(.interpolatingSpring(mass: 0.2, stiffness: 100, damping: 10, initialVelocity: 10), value: GL.posOY)
           
-          Image("lolerClassic").resizable().frame(width: screenWidth * 0.126, height: screenWidth * 0.126).offset(x: screenWidth / 1000 * GL.posLX, y: screenWidth / 1000 * GL.posLY).animation(.interpolatingSpring(mass: 0.1, stiffness: 30, damping: 10, initialVelocity: 20))
+          Image("lolerClassic").resizable().frame(width: screenWidth * 0.126, height: screenWidth * 0.126)
+            .offset(x: screenWidth / 1000 * GL.posLX, y: screenWidth / 1000 * GL.posLY)
+            .animation(.interpolatingSpring(mass: 0.1, stiffness: 30, damping: 10, initialVelocity: 20), value: GL.posLX)
+            .animation(.interpolatingSpring(mass: 0.1, stiffness: 30, damping: 10, initialVelocity: 20), value: GL.posLY)
         }
         HStack(spacing: 0) {
           HStack {
@@ -92,7 +98,7 @@ struct ContentView: View {
                 .foregroundColor((GL.freez == true) ? Color.white : Color.black)
                 .background((GL.freez == true) ? nil : colorButton)
                 .cornerRadius(screenWidth / 30).foregroundColor(.black)
-                .animation(.easeInOut(duration: 0.2))
+                .animation(.easeInOut(duration: 0.2), value: GL.recordP)
             }
             Spacer().frame(width: (screenWidth - screenHeight / 14) / 35)
           }.frame(width: screenWidth - screenHeight / 14,height: screenHeight / 20).background(color).cornerRadius(screenWidth / 25).padding(EdgeInsets(top: 10.0, leading: 5.0, bottom: 10.0, trailing: 5.0))
@@ -121,12 +127,47 @@ struct ContentView: View {
               GuideView()
             }
           })
-          Button {
-            GL.move(type: 1)
-          } label: {
+          Button(action: {}) {
             Image(systemName: "arrowshape.left.fill").resizable().frame(width: screenWidth * 0.2, height: screenWidth * 0.2).rotationEffect(.degrees(90)).frame(width: screenWidth * 0.3, height: screenWidth * 0.3)
               .background(colorButton).foregroundColor(colorFont).font(.largeTitle).cornerRadius(20)
-          }
+          }.simultaneousGesture(
+            TapGesture().onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.3).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.4).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.6).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.7).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.8).onEnded { _ in
+              GL.move(type: 1)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.9).onEnded { _ in
+              GL.move(type: 1)
+            }
+          )
+          
           Button {
             if self.GL.freez == false {
               settingsS.toggle()
@@ -150,41 +191,145 @@ struct ContentView: View {
         }
         Spacer().frame(height: 15)
         HStack(spacing: 15) {
-          Button {
-            GL.move(type: 3)
-          } label: {
+          Button(action: {}) {
             Image(systemName: "arrowshape.left.fill").resizable().frame(width: screenWidth * 0.2, height: screenWidth * 0.2).frame(width: screenWidth * 0.3, height: screenWidth * 0.3)
               .background(colorButton).foregroundColor(colorFont).font(.largeTitle).cornerRadius(20)
-          }
-          Button {
-            GL.move(type: 2)
-          } label: {
+          }.simultaneousGesture(
+            TapGesture().onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.3).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.4).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.6).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.7).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.8).onEnded { _ in
+              GL.move(type: 3)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.9).onEnded { _ in
+              GL.move(type: 3)
+            }
+          )
+          
+          Button(action: {}) {
             Image(systemName: "arrowshape.left.fill").resizable().frame(width: screenWidth * 0.2, height: screenWidth * 0.2).rotationEffect(.degrees(-90)).frame(width: screenWidth * 0.3, height: screenWidth * 0.3)
               .background(colorButton).foregroundColor(colorFont).font(.largeTitle).cornerRadius(20)
-          }
-          Button {
-            GL.move(type: 4)
-          } label: {
+          }.simultaneousGesture(
+            TapGesture().onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.3).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.4).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.6).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.7).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.8).onEnded { _ in
+              GL.move(type: 2)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.9).onEnded { _ in
+              GL.move(type: 2)
+            }
+          )
+          
+          Button(action: {}) {
             Image(systemName: "arrowshape.right.fill").resizable().frame(width: screenWidth * 0.2, height: screenWidth * 0.2).frame(width: screenWidth * 0.3, height: screenWidth * 0.3)
               .background(colorButton).foregroundColor(colorFont).font(.largeTitle).cornerRadius(20)
-          }
+          }.simultaneousGesture(
+            TapGesture().onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.2).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.3).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.4).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.6).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.7).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.8).onEnded { _ in
+              GL.move(type: 4)
+            }
+          ).simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.9).onEnded { _ in
+              GL.move(type: 4)
+            }
+          )
         }.frame(width: screenWidth).padding(EdgeInsets(top: 0.0, leading: 0.0, bottom: 30, trailing: 0.0))
         Spacer()
       }.frame(maxHeight: .infinity).background(color).onChange(of: color) {newValue in
-        var colorWrite: String? = "\(color)"
+        let colorWrite: String? = "\(color)"
         if (colorWrite != nil) {
           let arrayColor = colorWrite!.dropFirst(22).dropLast(1).components(separatedBy: " ").map{ Double($0)! }
           UserDefaults.standard.set([arrayColor[0], arrayColor[1], arrayColor[2]], forKey: "color")
           print(colorWrite!)
         }
       }.onChange(of: colorButton) {newValue in
-        var colorWrite: String? = "\(colorButton)"
+        let colorWrite: String? = "\(colorButton)"
         if (colorWrite != nil) {
           let arrayColor = colorWrite!.dropFirst(22).dropLast(1).components(separatedBy: " ").map{ Double($0)! }
           UserDefaults.standard.set([arrayColor[0], arrayColor[1], arrayColor[2]], forKey: "colorButton")
         }
       }.onChange(of: colorFont) {newValue in
-        var colorWrite: String? = "\(colorFont)"
+        let colorWrite: String? = "\(colorFont)"
         if (colorWrite != nil) {
           let arrayColor = colorWrite!.dropFirst(22).dropLast(1).components(separatedBy: " ").map{ Double($0)! }
           UserDefaults.standard.set([arrayColor[0], arrayColor[1], arrayColor[2]], forKey: "colorFont")

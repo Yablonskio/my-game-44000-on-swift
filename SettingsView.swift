@@ -18,15 +18,15 @@ struct SettingsView: View {
   @Binding var playWithOutSec:Bool
   @Binding var pickerState:Int
   
-  var pickerContent = ["1.6s","1.8s","2.0s"]
+  let pickerContent = ["1.6s","1.8s","2.0s"]
   
   
   
   var body: some View {
     VStack(spacing: 0) {
       /*HStack(spacing: 0) {
-        Image(systemName: "chevron.compact.down").resizable().frame(width: 45, height: 15)
-      }*/
+       Image(systemName: "chevron.compact.down").resizable().frame(width: 45, height: 15)
+       }*/
       HStack(spacing: 0) {
         Spacer()
         Text("SETTINGS").font(.system(size: screenWidth * 0.14)).fontWeight(.heavy)
@@ -49,24 +49,37 @@ struct SettingsView: View {
       }
       Section(header: Text("Time option")) {
         Picker(selection: $pickerState, label: Text("lol")) {
-          ForEach(0 ..< pickerContent.count) {
+          ForEach(0 ..< pickerContent.count, id: \.self) {
             Text(self.pickerContent[$0])
           }
         }.pickerStyle(SegmentedPickerStyle()).listRowSeparatorTint(Color.clear)
         HStack {
           Text("Earn:")
           Spacer()
-          Text((pickerState == 0) ? "5 Points" : (pickerState == 1) ? "3 Points" : "1 Points")
+          Text((playWithOutSec == true) ? "1 Points" : (pickerState == 0) ? "5 Points" : (pickerState == 1) ? "3 Points" : "1 Points")
           Spacer()
         }
         Toggle(isOn: $playWithOutSec) {
           Text("Play without second")
         }.onChange(of: playWithOutSec) { newValue in
           UserDefaults.standard.set(playWithOutSec, forKey: "playWithOutSec")
+          
         }
       }
-    }.frame(height: screenHeight * 0.8)
-    
+      Section(header: Text("Orb option")) {
+        Stepper("Simultaneous number: 1", onIncrement: {
+                        pickerState += 1
+                    }, onDecrement: {
+                        pickerState -= 1
+                    })
+        Toggle(isOn: $playWithOutSec) {
+          Text("Reduce motion")
+        }.onChange(of: playWithOutSec) { newValue in
+          UserDefaults.standard.set(playWithOutSec, forKey: "playWithOutSec")
+          
+        }
+      }
+    }.frame(height: screenHeight).position(x: screenWidth/2, y: screenWidth * 0.1 * 3)
   }
 }
 
