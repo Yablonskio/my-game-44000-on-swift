@@ -59,11 +59,16 @@ struct ContentView: View {
             .frame(width: screenWidth - screenWidth / 100 * 0.6, height: screenWidth - screenWidth / 100 * 0.6)
             .padding(EdgeInsets(top: screenWidth / 100 * 0.3, leading: screenWidth / 100 * 0.3, bottom: screenWidth / 100 * 0.3, trailing: screenWidth / 100 * 0.3))
           ZStack {
-            Circle().fill((!GL.clickOrb) ? .red : .green).frame(width: screenWidth * 0.126, height: screenWidth * 0.126)
+            Circle().fill((GL.clickOrbWithTimer) ? .purple : (GL.clickOrb) ? .green : .red).frame(width: screenWidth * 0.126, height: screenWidth * 0.126)
             Button {
               if GL.clickOrb {
                 GL.plusPointsTap()
                 GL.clickOrb = false
+                GL.clickOrbWithTimer = false
+              } else if GL.clickOrbWithTimer {
+                GL.doublePointsTap()
+                GL.clickOrb = false
+                GL.clickOrbWithTimer = false
               }
             } label: {
               Text((!GL.playWithOutSec) ? String(GL.secOrb) : " ")
@@ -81,7 +86,7 @@ struct ContentView: View {
         HStack(spacing: 0) {
           HStack {
             Spacer().frame(width: (screenWidth - screenHeight / 14) / 35)
-            Text("Points: \((GL.recordGame == false) ? String(GL.points) : String(GL.pointsRec))").font(.system(size: screenHeight / 33)).foregroundColor(colorFont)
+            Text("Points: \((GL.recordGame == false) ? String(GL.points) : String(GL.pointsRec))").font(.system(size: screenWidth / 16, weight: .regular)).foregroundColor(colorFont)
             Spacer()
             Spacer()
             Spacer()
@@ -94,7 +99,7 @@ struct ContentView: View {
               Text("\(GL.recordText): \(GL.recordP)")
                 .padding((GL.freez == true) ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                 .frame(height: (screenHeight / 20) - 8)
-                .font(.system(size: screenHeight / 33))
+                .font(.system(size: screenWidth / 16, weight: .regular))
                 .foregroundColor((GL.freez == true) ? Color.white : Color.black)
                 .background((GL.freez == true) ? nil : colorButton)
                 .cornerRadius(screenWidth / 30).foregroundColor(.black)
@@ -174,7 +179,7 @@ struct ContentView: View {
             }
           } label: {
             Text("Settings").frame(width: screenWidth * 0.27, height: screenWidth * 0.27)
-              .background(colorButton).foregroundColor(colorFont).font(.title).cornerRadius(20).padding(EdgeInsets(top: 0.0, leading: UIScreen.main.bounds.width * 0.03, bottom: UIScreen.main.bounds.width * 0.03, trailing: 0.0))
+              .background(colorButton).foregroundColor(colorFont).font(.system(size: screenWidth * 0.07)).cornerRadius(20).padding(EdgeInsets(top: 0.0, leading: UIScreen.main.bounds.width * 0.03, bottom: UIScreen.main.bounds.width * 0.03, trailing: 0.0))
           }.sheet(isPresented: $settingsS, content: {
             SettingsView(
               color: $color,

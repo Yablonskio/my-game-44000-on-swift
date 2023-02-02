@@ -14,6 +14,7 @@ class GeneralLogic: ObservableObject {
   var timerClickOrb = 0
   @Published var clickOrb = false
   @Published var secMainTimer = 0
+  @Published var clickOrbWithTimer = false
   
   @Published var points = UserDefaults.standard.integer(forKey: "points")
   @Published var recordP = UserDefaults.standard.integer(forKey: "recordP")
@@ -30,6 +31,7 @@ class GeneralLogic: ObservableObject {
   @Published var posLY = 840.0
   @Published var posOX = 34.0
   @Published var posOY = 34.0
+  var doublePoints = false
   var mainTimer = Timer.scheduledTimer(withTimeInterval: 0, repeats: false){ timer in}
   var timerSec = Timer.scheduledTimer(withTimeInterval: 0, repeats: false){ timerSec in}
   
@@ -52,13 +54,7 @@ class GeneralLogic: ObservableObject {
           self.timerSec.invalidate()
           self.secOrb = 3
           self.timerClickOrb += 1
-          if self.timerClickOrb == 10 {
-            self.clickOrb = true
-            self.timerClickOrb = 0
-            let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: false){timerSec in
-              self.clickOrb = false
-            }
-          }
+          self.timerOrbClickCheck()
           self.timerSec = Timer.scheduledTimer(withTimeInterval: secMainTimerWorker / 3, repeats: true){timerSec in
             self.secOrb -= 1
             if self.secOrb == -1 {
@@ -95,29 +91,36 @@ class GeneralLogic: ObservableObject {
       print("Error in switch, WHAT?!?!?")
     }
     if checkEat() == true {
+      var pointsPlus = 0
       if self.recordGame == false {
         if playWithOutSec == false {
           switch secMainTimer {
           case 0:
-            points += 5
+            pointsPlus += 5
           case 1:
-            points += 3
+            pointsPlus += 3
           case 2:
-            points += 1
+            pointsPlus += 1
           default:
             print("ERROR")
           }
         } else {
-          points += 1
+          pointsPlus += 1
         }
       } else {
         pointsRec+=1
       }
-        
+      if (doublePoints == true) {
+        points += pointsPlus * 2
+      } else {
+        points += pointsPlus
+      }
       UINotificationFeedbackGenerator().notificationOccurred(.warning)
       UserDefaults.standard.set(points, forKey: "points")
       orbNewPos()
       resetTimer()
+      self.timerClickOrb += 1
+      self.timerOrbClickCheck()
     }
   }
   func checkEat() -> Bool {
@@ -151,8 +154,8 @@ class GeneralLogic: ObservableObject {
   
   func resetTimer() {
     mainTimer.invalidate()
-    self.secOrb = 4
     start()
+    self.secOrb = 4
   }
   func startRecord() {
     let oldPlayWithOutSec = playWithOutSec
@@ -191,8 +194,39 @@ class GeneralLogic: ObservableObject {
     points += 10
     UserDefaults.standard.set(points, forKey: "points")
   }
+  func doublePointsTap() {
+    simpleSuccess()
+    self.doublePoints = true
+    self.freez = true
+    self.recordText = "Time"
+    self.recordP = 10
+    let timerDoublePoints = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){timerSec in
+      self.recordP -= 1
+    }
+    let _ = Timer.scheduledTimer(withTimeInterval: 10, repeats: false){timerSec in
+      self.doublePoints = false
+      self.freez = false
+      self.recordText = "Record"
+      self.recordP = UserDefaults.standard.integer(forKey: "recordP")
+      timerDoublePoints.invalidate()
+    }
+  }
   func simpleSuccess() {
       let generator = UINotificationFeedbackGenerator()
       generator.notificationOccurred(.success)
+  }
+  func timerOrbClickCheck() {
+    if self.timerClickOrb == 20 {
+      self.timerClickOrb = 0
+      self.clickOrbWithTimer = true
+      let _ = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false){timerSec in
+        self.clickOrbWithTimer = false
+      }
+    } else if self.timerClickOrb == 5 {
+      self.clickOrb = true
+      let _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: false){timerSec in
+        self.clickOrb = false
+      }
+    }
   }
  }

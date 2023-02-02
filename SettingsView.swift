@@ -66,7 +66,7 @@ struct SettingsView: View {
           
         }
       }
-      Section(header: Text("Orb option")) {
+      /*Section(header: Text("Orb option")) {
         Stepper("Simultaneous number: 1", onIncrement: {
                         pickerState += 1
                     }, onDecrement: {
@@ -78,7 +78,7 @@ struct SettingsView: View {
           UserDefaults.standard.set(playWithOutSec, forKey: "playWithOutSec")
           
         }
-      }
+      }*/
     }.frame(height: screenHeight).position(x: screenWidth/2, y: screenWidth * 0.1 * 3)
   }
 }
