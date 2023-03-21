@@ -11,7 +11,7 @@ import SwiftUI
 struct loler_ios_3App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView().preferredColorScheme(.dark)
+          ContentView().preferredColorScheme(.dark)
         }
     }
 }
